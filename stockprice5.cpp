@@ -1,58 +1,85 @@
-#include <iostream>
+#include <iostream>//optimized
 #include <vector>
 #include <climits>
 
 using namespace std;
 
+    void transactions(vector<int> arr,int k){
+       int n=arr.size();
+       vector<vector<int>>dp(k+1,vector<int>(n));
+       for(int t=1;t<=k;t++){
+           for(int d=1;d<n;d++){
+              int maxx= dp[t][d-1];
+            for(int i=0;i<d;i++){
+                int ptilltm1=dp[t-1][i];
+                int pth=arr[d]-arr[i];
+                if(ptilltm1+pth>maxx){
+                    maxx=ptilltm1+pth;
+                }
+            }
+            dp[t][d]=maxx;
+    }
+       }
+       cout<<dp[k][n-1];
+    }
+    int main(){
+    
+    int n;
+    cin>>n;
+    vector<int> arr(n,0);
 
-void transactions(vector<int> arr) {
-    int n=arr.size();
- int mpist=0;
- int leastsf=arr[0];
- int dpl[]=new int[n];
- for(int i=1;i<n;i++){
-     if(arr[i]<leastsf){
-        leastsf= arr[i];
-     }
-   mpist=arr[i]-leastsf;
-   if(mpist>dpl[i-1]){
-       dpl[i]=mpist;
-   }
-   else{dpl[i]=dpl[i-1];}
- }
- int mpibt=0;
- int maxat=arr[n-1];
- int dpr[]=new int[n];
- for(int i=n-2;i>=0;i--){
-     if(arr[i]>maxat){
-         maxat=arr[i];
-     }
-     mpibt=maxat-arr[i];
-     if(mpibt>dpr[i+1]){
-         dpr[i]=mpibt;
-     }
-     else{
-         dpr[i]=dpr[i+1];
-     }
- }
- int ans=0;
- for(int i=0;i<n;i++){
-     if(dpl[i]+dpr[i]>ans){
-         ans=dpl[i]+dpr[i];
-     }
- }
- cout<<ans<<endl;
-}
-
-int main() {
-  int n ;
-  cin >> n;
-  vector<int> arr(n, 0);
-  for (int i = 0; i < arr.size(); i++) {
-    cin >> arr[i] ;
+    for (int i = 0; i < n; i++)
+    {
+      cin>>arr[i];
+    }
+    int k ;
+    cin>>k;
+    
+    transactions(arr,k);
+    
+       return 0;
   }
+// #include <iostream>//unoptimized
+// #include <vector>
+// #include <climits>
 
-  transactions(arr);
+// using namespace std;
 
-  return 0;
-}
+//     void transactions(vector<int> arr,int k){
+//        int n=arr.size();
+//        vector<vector<int>>dp(k+1,vector<int>(n));
+//        for(int t=1;t<=k;t++){
+//                int maxx=INT32_MIN;
+//            for(int d=1;d<n;d++){
+//                if(dp[t-1][d-1]-arr[d-1]>maxx){
+//                    maxx=dp[t-1][d-1]-arr[d-1];
+//                }
+//                if(maxx+arr[d]>dp[t][d-1]){
+//                    dp[t][d]=maxx+arr[d];
+//                }
+//                else{
+//                    dp[t][d]=dp[t][d-1];
+//                }
+//            }
+
+//        }
+//        cout<<dp[k][n-1];
+//     }
+    
+//     int main(){
+    
+//     int n;
+//     cin>>n;
+//     vector<int> arr(n,0);
+
+//     for (int i = 0; i < n; i++)
+//     {
+//       cin>>arr[i];
+//     }
+//     int k ;
+//     cin>>k;
+    
+//     transactions(arr,k);
+    
+//        return 0;
+//   }
